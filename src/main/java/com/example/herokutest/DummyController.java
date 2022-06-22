@@ -26,8 +26,8 @@ public class DummyController {
         return "Dies Das Ananas";
     }
 
-    @GetMapping("/random")
-    public String getRandomRickAndMortyChar(){
+    @GetMapping("/hunt")
+    public String getRandomRickAndMortyCharHuntingYou(){
         int totalChars = ramApi();
         var ran = new Random();
         int randomCharIndex = ran.nextInt(totalChars);
@@ -43,7 +43,7 @@ public class DummyController {
         if(character.getStatus().equalsIgnoreCase("alive")){
             str.append(" and hunting you.");
         }else{
-            str.append(" and not hunting you.");
+            str.append(" and is no danger.");
         }
         return str.toString();
     }
