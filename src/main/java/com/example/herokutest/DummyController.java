@@ -11,6 +11,7 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 @RestController
 @RequestMapping("/api")
@@ -22,6 +23,18 @@ public class DummyController {
     public String dummy(){
         return "Dies Das Ananas";
     }
+
+    @GetMapping("/random")
+    public int getRandomRickAndMortyChar(){
+        Random ran = new Random();
+        return ran.nextInt(100);
+    }
+
+//    private ResponseEntity<com.example.herokutest.ApiData> ramApi(){
+//        RestTemplate template = new RestTemplate();
+//        ResponseEntity<ApiData> response =  template.getForEntity("https://rickandmortyapi.com/api/character", ApiData.class);
+//        return response;
+//    }
 
     @GetMapping
     public List<String> getMappings(){
