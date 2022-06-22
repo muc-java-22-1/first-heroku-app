@@ -40,7 +40,7 @@ public class DummyController {
         str.append(character.getName());
         str.append(" is ");
         str.append(character.getStatus());
-        if(character.getStatus().equalsIgnoreCase("alive")){
+        if(!character.getStatus().equalsIgnoreCase("dead")){
             str.append(" and hunting you.");
         }else{
             str.append(" and no danger.");
