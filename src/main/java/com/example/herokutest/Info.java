@@ -4,5 +4,5 @@ import lombok.Data;
 
 @Data
 class Info {
-    private String count;
+    private int count;
 }

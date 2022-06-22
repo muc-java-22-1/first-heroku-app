@@ -2,9 +2,11 @@ package com.example.herokutest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
@@ -25,16 +27,38 @@ public class DummyController {
     }
 
     @GetMapping("/random")
-    public int getRandomRickAndMortyChar(){
-        Random ran = new Random();
-        return ran.nextInt(100);
+    public String getRandomRickAndMortyChar(){
+        int totalChars = ramApi();
+        var ran = new Random();
+        int randomCharIndex = ran.nextInt(totalChars);
+        RamCharacter character = getRamCharacter(randomCharIndex);
+        return getHuntingString(character);
     }
 
-//    private ResponseEntity<com.example.herokutest.ApiData> ramApi(){
-//        RestTemplate template = new RestTemplate();
-//        ResponseEntity<ApiData> response =  template.getForEntity("https://rickandmortyapi.com/api/character", ApiData.class);
-//        return response;
-//    }
+    private String getHuntingString(RamCharacter character) {
+        StringBuilder str = new StringBuilder();
+        str.append(character.getName());
+        str.append(" is ");
+        str.append(character.getStatus());
+        if(character.getStatus().equalsIgnoreCase("alive")){
+            str.append(" and hunting you.");
+        }else{
+            str.append(" and not hunting you.");
+        }
+        return str.toString();
+    }
+
+    private RamCharacter getRamCharacter(int id){
+        RestTemplate template = new RestTemplate();
+        ResponseEntity<RamCharacter> response =  template.getForEntity("https://rickandmortyapi.com/api/character/" + id, RamCharacter.class);
+        return response.getBody();
+    }
+
+    private int ramApi(){
+        RestTemplate template = new RestTemplate();
+        ResponseEntity<RamInfo> response =  template.getForEntity("https://rickandmortyapi.com/api/character", RamInfo.class);
+        return response.getBody().getInfo().getCount();
+    }
 
     @GetMapping
     public List<String> getMappings(){
