@@ -43,7 +43,7 @@ public class DummyController {
         if(character.getStatus().equalsIgnoreCase("alive")){
             str.append(" and hunting you.");
         }else{
-            str.append(" and is no danger.");
+            str.append(" and no danger.");
         }
         return str.toString();
     }
